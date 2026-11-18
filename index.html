@@ -162,7 +162,7 @@
     .portada{padding-top:18px}
     .marco-libro{height:400px}
     .marco-moviles{height:1010px}
-    .marco-revive{height:640px;border-radius:0}
+    .marco-revive{height:800px;border-radius:0}
     .revive .ancho{width:100%}
     .acciones .boton{flex:1 1 100%}
     .anochecer .p2,.anochecer .p5{display:none}
@@ -616,7 +616,7 @@ document.getElementById('credito-btn').addEventListener('click', () => {
   body.bloqueado{overflow:hidden}
 
   @media (max-width:900px){.rejilla{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:600px){ .foco .msj .burbuja{font-size:11px;padding:6px 12px} .foco .msj.yo .burbuja{padding:6px 14px} .foco .msj .de{font-size:9px} .foco .msj .h{font-size:8.5px} .foco{width:calc(100vw - 20px);max-width:340px;padding:16px 12px} .foco .movil{width:min(285px,calc(100vw - 64px))}
+  @media (max-width:600px){ .foco .msj .burbuja{font-size:11.75px;padding:6.5px 12.5px} .foco .msj.yo .burbuja{padding:6.5px 14.5px} .foco .msj .de{font-size:9.5px} .foco .msj .h{font-size:9px} .foco{width:calc(100vw - 20px);max-width:340px;padding:16px 12px} .foco .movil{width:min(285px,calc(100vw - 64px))}
     .personajes{padding:4px 10px 44px}
     .rejilla{margin-top:8px;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}
     .ficha{max-width:none}
@@ -1527,6 +1527,7 @@ Date.now = () => _ahoraReal() + desfase;
     .prueba .estado{font-size:13px;padding:6px 0}
     .prueba .estado small{font-size:11px}
   }
+  .desliza{-webkit-mask-image:linear-gradient(180deg,#000 82%,transparent);mask-image:linear-gradient(180deg,#000 82%,transparent)}
 </style>
 </head>
 <body>
@@ -1644,10 +1645,17 @@ function ajustarFrase(){
   const btn = $('btn-anteriores');
   const barra = document.getElementById('prueba');
   const reserva = (btn.classList.contains('visible') ? btn.offsetHeight + 16 : 0) + (barra ? barra.offsetHeight + 20 : 0) + 18;
+  caja.style.maxHeight = ''; caja.style.overflowY = ''; caja.classList.remove('desliza');
   let t = innerWidth / innerHeight < 0.8 ? Math.min(16, innerWidth / 25) : 16;
   txt.style.fontSize = t + 'px';
-  while (t > 10.5 && caja.getBoundingClientRect().bottom > innerHeight - reserva){
+  while (t > 12 && caja.getBoundingClientRect().bottom > innerHeight - reserva){
     t -= 0.5; txt.style.fontSize = t + 'px';
+  }
+  const r = caja.getBoundingClientRect();
+  if (r.bottom > innerHeight - reserva + 10){
+    caja.style.maxHeight = Math.max(120, innerHeight - reserva - r.top) + 'px';
+    caja.style.overflowY = 'auto'; caja.classList.add('desliza');
+    caja.scrollTop = 0;
   }
 }
 function pintarFrase(){
